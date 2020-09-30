@@ -50,3 +50,9 @@
     /* outline-width: 0; */ /*포커스 상태일때 파란색 outline 표시*/
     margin-left: 10px;
 }
+
+.sidebar__chats {
+    flex: 1;
+    background-color: white;
+    overflow: scroll;
+}
