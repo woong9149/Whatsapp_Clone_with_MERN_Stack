@@ -1,0 +1,15 @@
+{
+    "dbPass":"boa457813",
+    "dbName":"whatsappDB",
+    "pusher": {
+        "appId": "1083617",
+     "key": "3eb645d6628131c667e0",
+     "secret": "bcacdebf071bf66aae11",
+     "cluster":"ap3",
+     "useTLS": true
+    }
+}
+
+   
+    
+

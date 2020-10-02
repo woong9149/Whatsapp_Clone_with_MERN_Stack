@@ -5,16 +5,17 @@ const mongoose = require('mongoose');
 const Messages =require("./dbMessages.js");
 const Pusher = require('pusher');
 const cors = require('cors');
+const dbConfig = require('./dbConfig.json');
 
 // app config
 const app = express();
 const port = process.env.PORT || 9000;
 
 const pusher = new Pusher({
-    appId: '1083617',
-    key: '3eb645d6628131c667e0',
-    secret: 'bcacdebf071bf66aae11',
-    cluster: 'ap3',
+    appId: dbConfig.pusher.appId,
+    key: dbConfig.pusher.key,
+    secret: dbConfig.pusher.secret,
+    cluster: dbConfig.pusher.cluster,
     // encrypted: true, //useTLS와 같이 사용할 수 없음
     useTLS: true
   });
@@ -29,7 +30,7 @@ app.use(cors());
 //     next();
 // })
 // DB config
-const connection_url ='mongodb+srv://admin:boa457813@cluster0.oozha.mongodb.net/whatsappDB?retryWrites=true&w=majority';
+const connection_url =`mongodb+srv://admin:${dbConfig.dbPass}@cluster0.oozha.mongodb.net/${dbConfig.dbName}?retryWrites=true&w=majority`;
 
 mongoose.connect(connection_url, {
     useCreateIndex: true,
@@ -51,8 +52,10 @@ db.once('open', () => {
         if (change.operationType === "insert") {
             const messageDetails = change.fullDocument;
             pusher.trigger("messages","inserted",{
-                name: messageDetails.user,
-                message: messageDetails.message
+                name: messageDetails.name,
+                message: messageDetails.message,
+                timestamp: messageDetails.timestamp,
+                received : messageDetails.received
             });
         } else {
             console.log("Error triggering Pusher");
