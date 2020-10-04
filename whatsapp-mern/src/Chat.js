@@ -12,6 +12,7 @@ function Chat({ messages }){
     const sendMessage = async (e) => {
         e.preventDefault();
 
+       
         await axios.post('/messages/new', {
             "message": input,
             "name":"DEMO APP",
